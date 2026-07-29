@@ -8,7 +8,9 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   return (
     <ThemeProvider>
       <QueryProvider>
-        <AuthProvider>{children}</AuthProvider>
+        <AuthProvider>
+        {children}
+        </AuthProvider>
       </QueryProvider>
     </ThemeProvider>
   );
