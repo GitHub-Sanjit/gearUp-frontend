@@ -16,3 +16,13 @@ export interface JwtPayload {
   email: string;
   role: UserRole;
 }
+
+export type RegisterRole = "CUSTOMER" | "PROVIDER";
+
+export type RegisterPayload = {
+  name: string;
+  email: string;
+  password: string;
+  role?: "CUSTOMER" | "PROVIDER";
+  profilePhoto?: string;
+};

@@ -12,8 +12,14 @@ export interface LoginPayload {
 }
 
 export const authService = {
+  // register: async (data: RegisterPayload) => {
+  //   const response = await axiosInstance.post("/auth/register", data);
+
+  //   return response.data;
+  // },
+
   register: async (data: RegisterPayload) => {
-    const response = await axiosInstance.post("/auth/register", data);
+    const response = await axiosInstance.post("/users/register", data);
 
     return response.data;
   },
