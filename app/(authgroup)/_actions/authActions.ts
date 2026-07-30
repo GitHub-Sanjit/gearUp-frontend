@@ -38,14 +38,14 @@ export async function registerAction(
   formData: FormData,
 ) {
   try {
+    const profilePhoto = formData.get("profilePhoto") as string;
+
     const payload = {
       name: formData.get("name") as string,
-
       email: formData.get("email") as string,
-
       password: formData.get("password") as string,
-
       role: formData.get("role") as "CUSTOMER" | "PROVIDER",
+      ...(profilePhoto && { profilePhoto }),
     };
 
     const response = await authService.register(payload);
@@ -56,10 +56,9 @@ export async function registerAction(
         message: response.message || "Registration failed",
       };
     }
-
     return {
       success: true,
-      message: "Registration successful",
+      message: response.message || "Registration successful",
     };
   } catch (error) {
     return {

@@ -5,23 +5,28 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
+import { useRouter } from "next/navigation";
 
 import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
 import { registerAction } from "../../_actions/authActions";
+import Link from "next/link";
 
 const RegisterForm = () => {
   const [state, action, pending] = useActionState(registerAction, null);
+
+  const router = useRouter();
 
   useEffect(() => {
     if (!state) return;
 
     if (state.success) {
       toast.success(state.message || "Registration successful");
+      router.push("/login");
     } else {
       toast.error(state.message || "Registration failed");
     }
-  }, [state]);
+  }, [state, router]);
 
   return (
     <form action={action} className="space-y-4">
@@ -74,6 +79,12 @@ const RegisterForm = () => {
           {pending ? "Creating Account..." : "Register"}
         </Button>
       </Card>
+      <p className="text-center text-sm text-muted-foreground">
+        Already have an account?{" "}
+        <Link href="/login" className="text-primary hover:underline">
+          Login here
+        </Link>
+      </p>
     </form>
   );
 };

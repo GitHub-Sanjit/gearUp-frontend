@@ -24,6 +24,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import Link from "next/link";
 
 const LoginForm = () => {
   const router = useRouter();
@@ -109,6 +110,12 @@ const LoginForm = () => {
             {form.formState.isSubmitting ? "Logging in..." : "Login"}
           </Button>
         </Card>
+        <p className="text-center text-sm text-muted-foreground">
+          Don&apos;t have an account?{" "}
+          <Link href="/register" className="text-primary hover:underline">
+            Register
+          </Link>
+        </p>
       </form>
     </Form>
   );
