@@ -30,7 +30,7 @@ export const authService = {
     return response.data;
   },
   getCurrentUser: async () => {
-    const res = await axiosInstance.get("/auth/me");
+    const res = await axiosInstance.get("/users/me");
 
     return res.data;
   },
