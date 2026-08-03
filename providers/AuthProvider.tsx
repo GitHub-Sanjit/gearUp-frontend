@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import { createContext, useEffect, useState } from "react";
@@ -9,7 +10,7 @@ interface AuthContextType {
   user: User | null;
   isLoading: boolean;
   logout: () => Promise<void>;
-  refreshUser: () => Promise<void>;
+  refreshUser: () => Promise<User | null>;
 }
 
 export const AuthContext = createContext<AuthContextType | null>(null);
@@ -24,16 +25,21 @@ export default function AuthProvider({
   const [isLoading, setIsLoading] = useState(true);
 
   const refreshUser = async () => {
+    setIsLoading(true);
+
     try {
-      const response = await authService.getCurrentUser();
+      const data = await authService.getCurrentUser();
 
-      console.log("ME RESPONSE:", response);
+      console.log("GET CURRENT USER:", data);
+      console.log("PROFILE:", data.profile);
+      console.log("DATA PROFILE:", data.data?.profile);
 
-      setUser(response.data.profile);
+      setUser(data.data.profile);
+
+      return data.data.profile;
     } catch (error) {
-      console.log("AUTH ERROR:", error);
-
       setUser(null);
+      return null;
     } finally {
       setIsLoading(false);
     }

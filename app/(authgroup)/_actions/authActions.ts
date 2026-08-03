@@ -4,34 +4,34 @@
 import { authService } from "@/services/auth.service";
 import { redirect } from "next/navigation";
 
-export async function loginAction(
-  redirectTo: string,
-  _previousState: unknown,
-  formData: FormData,
-) {
-  try {
-    const payload = {
-      email: formData.get("email") as string,
-      password: formData.get("password") as string,
-    };
+// export async function loginAction(
+//   redirectTo: string,
+//   _previousState: unknown,
+//   formData: FormData,
+// ) {
+//   try {
+//     const payload = {
+//       email: formData.get("email") as string,
+//       password: formData.get("password") as string,
+//     };
 
-    const response = await authService.login(payload);
+//     const response = await authService.login(payload);
 
-    if (!response.success) {
-      return {
-        success: false,
-        message: response.message || "Login failed",
-      };
-    }
+//     if (!response.success) {
+//       return {
+//         success: false,
+//         message: response.message || "Login failed",
+//       };
+//     }
 
-    redirect(redirectTo || "/dashboard");
-  } catch (error) {
-    return {
-      success: false,
-      message: "Invalid email or password",
-    };
-  }
-}
+//     redirect(redirectTo || "/dashboard");
+//   } catch (error) {
+//     return {
+//       success: false,
+//       message: "Invalid email or password",
+//     };
+//   }
+// }
 
 export async function registerAction(
   _previousState: unknown,

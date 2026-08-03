@@ -46,14 +46,42 @@ const LoginForm = () => {
 
   const onSubmit = async (data: LoginInput) => {
     try {
+      console.log("LOGIN START");
+
       await authService.login(data);
 
-      await refreshUser();
+      console.log("LOGIN API SUCCESS");
+
+      const user = await refreshUser();
+
+      console.log("CURRENT USER AFTER LOGIN:", user);
 
       toast.success("Login successful");
 
-      router.push(redirectTo);
+      // If the user was trying to access a protected page,
+      // send them there first.
+      if (redirectTo !== "/dashboard") {
+        console.log("REDIRECTING TO:", redirectTo);
+        router.push(redirectTo);
+        return;
+      }
+
+      // Otherwise redirect based on role
+      switch (user?.role) {
+        case "ADMIN":
+          router.push("/admin");
+          break;
+
+        case "PROVIDER":
+          router.push("/provider");
+          break;
+
+        default:
+          router.push("/dashboard");
+          break;
+      }
     } catch (error: any) {
+      console.log("LOGIN ERROR:", error);
       toast.error(error?.response?.data?.message || "Login failed");
     }
   };

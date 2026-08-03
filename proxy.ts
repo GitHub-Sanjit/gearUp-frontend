@@ -3,14 +3,30 @@ import { jwtUtils } from "./lib/jwt";
 
 const AUTH_ROUTES = ["/login", "/register"];
 
-const PROTECTED_ROUTES = ["/dashboard", "/provider", "/admin"];
+const PROTECTED_ROUTES = ["/admin", "/provider", "/dashboard"];
+
+const ROLE_ROUTES = {
+  ADMIN: ["/admin"],
+
+  PROVIDER: ["/provider"],
+
+  CUSTOMER: ["/dashboard"],
+};
+
+const hasRouteAccess = (role: string, pathname: string) => {
+  const allowedRoutes = ROLE_ROUTES[role as keyof typeof ROLE_ROUTES];
+
+  if (!allowedRoutes) {
+    return false;
+  }
+
+  return allowedRoutes.some((route) => pathname.startsWith(route));
+};
 
 export async function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
   const accessToken = request.cookies.get("accessToken")?.value;
-
-  const refreshToken = request.cookies.get("refreshToken")?.value;
 
   let user = null;
 
@@ -25,7 +41,9 @@ export async function proxy(request: NextRequest) {
     }
   }
 
-  // protect private routes
+  /*
+    Protect private routes
+  */
 
   const needsAuth = PROTECTED_ROUTES.some((route) =>
     pathname.startsWith(route),
@@ -37,7 +55,17 @@ export async function proxy(request: NextRequest) {
     );
   }
 
-  // logged user visiting login
+  /*
+    Role Authorization
+  */
+
+  if (needsAuth && user && !hasRouteAccess(user.role as string, pathname)) {
+    return NextResponse.redirect(new URL("/unauthorized", request.url));
+  }
+
+  /*
+    Logged user visiting auth pages
+  */
 
   if (AUTH_ROUTES.includes(pathname) && user) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
