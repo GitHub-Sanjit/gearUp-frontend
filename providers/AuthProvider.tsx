@@ -34,9 +34,9 @@ export default function AuthProvider({
       console.log("PROFILE:", data.profile);
       console.log("DATA PROFILE:", data.data?.profile);
 
-      setUser(data.data.profile);
+      setUser(data.data);
 
-      return data.data.profile;
+      return data.data;
     } catch (error) {
       setUser(null);
       return null;

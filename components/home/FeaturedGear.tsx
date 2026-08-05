@@ -8,9 +8,7 @@ import { Button } from "@/components/ui/button";
 import { useFeaturedGears } from "@/hooks/useFeaturedGears";
 
 export default function FeaturedGears() {
-  const { data: featuredGears, isLoading, isError, error } = useFeaturedGears();
-
-  console.log("Featured gears error:", error);
+  const { data: featuredGears, isLoading, isError } = useFeaturedGears();
 
   if (isLoading) {
     return (
