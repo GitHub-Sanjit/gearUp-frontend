@@ -1,23 +1,14 @@
 import { axiosInstance } from "@/lib/axios";
+import { GearResponse } from "@/types/gear";
 
-export const gearService = {
-  getAllGear: async (params?: Record<string, unknown>) => {
-    const res = await axiosInstance.get("/gear", {
-      params,
-    });
+export const getFeaturedGears = async () => {
+  const { data } = await axiosInstance.get<GearResponse>("/gear", {
+    params: {
+      limit: 6,
+      sortBy: "createdAt",
+      sortOrder: "desc",
+    },
+  });
 
-    return res.data;
-  },
-
-  getGearById: async (id: string) => {
-    const res = await axiosInstance.get(`/gear/${id}`);
-
-    return res.data;
-  },
-
-  getCategories: async () => {
-    const res = await axiosInstance.get("/categories");
-
-    return res.data;
-  },
+  return data.data.gears;
 };

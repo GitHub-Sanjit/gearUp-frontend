@@ -1,36 +1,37 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-
-const featuredGears = [
-  {
-    id: "1",
-    name: "Mountain Bike",
-    category: "Cycling",
-    price: 15,
-    condition: "Excellent",
-    image: "https://images.unsplash.com/photo-1576435728678-68d0fbf94e91",
-  },
-  {
-    id: "2",
-    name: "Camping Tent",
-    category: "Camping",
-    price: 20,
-    condition: "Good",
-    image: "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4",
-  },
-  {
-    id: "3",
-    name: "Football Kit",
-    category: "Sports",
-    price: 10,
-    condition: "Like New",
-    image: "https://images.unsplash.com/photo-1579952363873-27f3bade9f55",
-  },
-];
+import { useFeaturedGears } from "@/hooks/useFeaturedGears";
 
 export default function FeaturedGears() {
+  const { data: featuredGears, isLoading, isError, error } = useFeaturedGears();
+
+  console.log("Featured gears error:", error);
+
+  if (isLoading) {
+    return (
+      <section className="py-16">
+        <div className="container mx-auto px-4 text-center">
+          Loading gears...
+        </div>
+      </section>
+    );
+  }
+
+  if (isError) {
+    return (
+      <section className="py-16">
+        <div className="container mx-auto px-4 text-center text-red-500">
+          Failed to load gears.
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="py-16">
       <div className="container mx-auto px-4">
@@ -51,7 +52,7 @@ export default function FeaturedGears() {
 
         {/* Gear Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {featuredGears.map((gear) => (
+          {featuredGears?.map((gear) => (
             <div
               key={gear.id}
               className="
@@ -62,9 +63,10 @@ export default function FeaturedGears() {
               {/* Image */}
               <div className="relative h-56 w-full">
                 <Image
-                  src={gear.image}
+                  src={gear.image ?? "/placeholder.png"}
                   alt={gear.name}
                   fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   className="object-cover"
                 />
               </div>
@@ -78,12 +80,12 @@ export default function FeaturedGears() {
                 </div>
 
                 <p className="text-sm text-muted-foreground mt-2">
-                  {gear.category}
+                  {gear.category.name}
                 </p>
 
                 <div className="flex items-center justify-between mt-5">
                   <p className="font-semibold text-lg">
-                    ${gear.price}
+                    ${gear.dailyRentalPrice}
                     <span className="text-sm text-muted-foreground">/day</span>
                   </p>
 

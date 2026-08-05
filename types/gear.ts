@@ -1,35 +1,46 @@
 export interface Category {
   id: string;
   name: string;
-  description?: string;
-}
-
-export interface Provider {
-  id: string;
-  name: string;
+  description: string | null;
 }
 
 export interface Gear {
   id: string;
 
   name: string;
-  description?: string;
+  description: string | null;
 
-  brand?: string;
+  brand: string | null;
 
-  image?: string;
+  image: string | null;
 
   dailyRentalPrice: number;
 
   stockQuantity: number;
-
   availableQuantity: number;
+
+  condition: "GOOD" | "FAIR" | "POOR";
 
   isAvailable: boolean;
 
-  condition: string;
-
-  provider: Provider;
-
+  categoryId: string;
   category: Category;
+
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface GearResponse {
+  success: boolean;
+  statusCode: number;
+  message: string;
+  meta: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPage: number;
+  };
+  data: {
+    gears: Gear[];
+  };
 }
