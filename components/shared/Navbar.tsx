@@ -14,7 +14,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { LayoutDashboard, LogOut, Settings, User } from "lucide-react";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
 
@@ -24,8 +24,8 @@ const navItems = [
     href: "/",
   },
   {
-    label: "Gear",
-    href: "/gear",
+    label: "Gears",
+    href: "/gears",
   },
   {
     label: "About",
@@ -59,6 +59,7 @@ export default function Navbar() {
   const { user, logout } = useAuth();
 
   const router = useRouter();
+  const pathname = usePathname();
 
   const handleDashboardRedirect = () => {
     if (!user) return;
@@ -101,16 +102,45 @@ export default function Navbar() {
 
           {/* Navigation */}
 
-          <div className="hidden md:flex gap-8">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="text-sm hover:text-primary"
-              >
-                {item.label}
-              </Link>
-            ))}
+          <div className="hidden md:flex items-center gap-8">
+            {navItems.map((item) => {
+              const isActive = pathname === item.href;
+
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`
+                    group
+          relative text-sm font-medium
+          transition-colors duration-200
+          hover:text-primary
+          focus-visible:outline-none
+          focus-visible:ring-2
+          focus-visible:ring-primary
+          focus-visible:ring-offset-2
+          rounded-sm
+          ${isActive ? "text-primary" : "text-muted-foreground"}
+        `}
+                >
+                  {item.label}
+
+                  {/* Active underline */}
+                  <span
+                    className={`
+            absolute
+            left-0
+            -bottom-2
+            h-0.5
+            bg-primary
+            transition-all
+            duration-300
+            ${isActive ? "w-full" : "w-0 group-hover:w-full"}
+          `}
+                  />
+                </Link>
+              );
+            })}
           </div>
 
           {/* User Section */}
