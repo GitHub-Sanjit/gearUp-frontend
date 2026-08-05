@@ -1,88 +1,200 @@
-"use client";
-
 import Image from "next/image";
-import { useParams } from "next/navigation";
 
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 
-import { useGear } from "@/hooks/useGear";
+import { getGearById } from "@/services/gear.service";
+import RentalForm from "@/components/rental/RentalForm";
 
-export default function GearDetailsPage() {
-  const params = useParams();
+interface GearDetailsPageProps {
+  params: Promise<{
+    id: string;
+  }>;
+}
 
-  const id = params.id as string;
-
-  const { data: gear, isLoading, isError } = useGear(id);
-
-  if (isLoading) {
-    return (
-      <div className="container mx-auto px-4 py-16 text-center">
-        Loading gear...
-      </div>
-    );
-  }
-
-  if (isError || !gear) {
-    return (
-      <div className="container mx-auto px-4 py-16 text-center text-red-500">
-        Failed to load gear.
-      </div>
-    );
-  }
+export default async function GearDetailsPage({
+  params,
+}: GearDetailsPageProps) {
+  const gear = await getGearById((await params).id);
 
   return (
-    <section className="py-16">
+    <main className="min-h-screen py-12">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-          {/* Image */}
-          <div className="relative h-[450px] rounded-xl overflow-hidden border">
-            <Image
-              src={gear.image ?? "/placeholder.png"}
-              alt={gear.name}
-              fill
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover"
-            />
+        <div
+          className="
+            grid 
+            grid-cols-1 
+            lg:grid-cols-5 
+            gap-10
+            items-start
+          "
+        >
+          {/* ================= IMAGE ================= */}
+
+          <div className="lg:col-span-3">
+            <div
+              className="
+                relative
+                h-130
+                overflow-hidden
+                rounded-2xl
+                border
+                shadow-sm
+              "
+            >
+              <Image
+                src={gear.image || "/placeholder.png"}
+                alt={gear.name}
+                fill
+                sizes="
+                  (max-width:1024px) 100vw,
+                  60vw
+                "
+                className="
+                  object-cover
+                "
+              />
+            </div>
           </div>
 
-          {/* Details */}
-          <div>
-            <div className="flex items-center justify-between">
-              <h1 className="text-4xl font-bold">{gear.name}</h1>
+          {/* ================= DETAILS ================= */}
+
+          <div
+            className="
+              lg:col-span-2
+              space-y-6
+            "
+          >
+            {/* Title */}
+
+            <div
+              className="
+                flex
+                items-start
+                justify-between
+                gap-4
+              "
+            >
+              <h1
+                className="
+                  text-3xl
+                  font-bold
+                "
+              >
+                {gear.name}
+              </h1>
 
               <Badge>{gear.condition}</Badge>
             </div>
 
-            <p className="mt-4 text-muted-foreground">{gear.category.name}</p>
+            {/* Category */}
 
-            <p className="text-3xl font-bold mt-6">
-              ${gear.dailyRentalPrice}
-              <span className="text-base font-normal text-muted-foreground">
-                /day
-              </span>
+            <p
+              className="
+                text-muted-foreground
+              "
+            >
+              {gear.category.name}
             </p>
 
-            <p className="mt-6 leading-7">{gear.description}</p>
+            {/* Price */}
 
-            <div className="mt-8 space-y-3">
-              <p>
-                <span className="font-semibold">Brand:</span>{" "}
-                {gear.brand ?? "N/A"}
-              </p>
+            <div>
+              <span
+                className="
+                  text-3xl
+                  font-bold
+                "
+              >
+                ${gear.dailyRentalPrice}
+              </span>
 
-              <p>
-                <span className="font-semibold">Available:</span>{" "}
-                {gear.availableQuantity} items
+              <span
+                className="
+                  text-muted-foreground
+                  ml-1
+                "
+              >
+                /day
+              </span>
+            </div>
+
+            {/* Description */}
+
+            <div className="space-y-2">
+              <h3
+                className="
+                  font-semibold
+                  text-lg
+                "
+              >
+                Description
+              </h3>
+
+              <p
+                className="
+                  text-muted-foreground
+                  leading-relaxed
+                "
+              >
+                {gear.description || "No description available."}
               </p>
             </div>
 
-            <Button size="lg" className="mt-8">
-              Rent Now
-            </Button>
+            {/* Extra Information */}
+
+            <div
+              className="
+                rounded-xl
+                border
+                p-5
+                space-y-3
+              "
+            >
+              <div
+                className="
+                  flex
+                  justify-between
+                "
+              >
+                <span>Brand</span>
+
+                <span
+                  className="
+                    font-medium
+                  "
+                >
+                  {gear.brand || "N/A"}
+                </span>
+              </div>
+
+              <div
+                className="
+                  flex
+                  justify-between
+                "
+              >
+                <span>Available</span>
+
+                <span
+                  className="
+                    font-medium
+                  "
+                >
+                  {gear.availableQuantity} items
+                </span>
+              </div>
+            </div>
+
+            {/* ================= RENTAL FORM ================= */}
+
+            <RentalForm
+              gearId={gear.id}
+              pricePerDay={gear.dailyRentalPrice}
+              availableQuantity={gear.availableQuantity}
+            />
           </div>
         </div>
       </div>
-    </section>
+    </main>
   );
 }
