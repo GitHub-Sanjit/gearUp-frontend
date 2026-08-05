@@ -23,6 +23,8 @@ export interface Gear {
 
   isAvailable: boolean;
 
+  provider: Provider;
+
   categoryId: string;
   category: Category;
 
@@ -42,5 +44,15 @@ export interface GearResponse {
   };
   data: {
     gears: Gear[];
+  };
+}
+
+export interface Provider {
+  id: string;
+  name: string;
+  email: string;
+  profile?: {
+    phone?: string;
+    address?: string;
   };
 }

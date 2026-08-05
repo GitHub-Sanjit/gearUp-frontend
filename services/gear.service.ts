@@ -1,5 +1,5 @@
 import { axiosInstance } from "@/lib/axios";
-import { GearResponse } from "@/types/gear";
+import type { GearResponse, Gear } from "@/types/gear";
 
 export const getFeaturedGears = async () => {
   const { data } = await axiosInstance.get<GearResponse>("/gear", {
@@ -11,4 +11,14 @@ export const getFeaturedGears = async () => {
   });
 
   return data.data.gears;
+};
+
+export const getGearById = async (id: string) => {
+  const { data } = await axiosInstance.get<{
+    data: {
+      gear: Gear;
+    };
+  }>(`/gear/${id}`);
+
+  return data.data.gear;
 };
