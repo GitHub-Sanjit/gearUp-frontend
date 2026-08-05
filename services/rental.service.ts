@@ -1,35 +1,53 @@
 import { axiosInstance } from "@/lib/axios";
 
-export interface CreateRentalPayload {
-  gearId: string;
-  quantity: number;
-  startDate: string;
-  endDate: string;
-}
+import {
+  CreateRentalOrderPayload,
+  CreateRentalResponse,
+  MyRentalsResponse,
+  ProviderOrdersResponse,
+  SingleRentalResponse,
+  UpdateRentalStatusPayload,
+} from "@/types/rental";
 
-export const createRental = async (payload: CreateRentalPayload) => {
-  const { data } = await axiosInstance.post("/rentals", payload);
+export const createRentalOrder = async (payload: CreateRentalOrderPayload) => {
+  const { data } = await axiosInstance.post<CreateRentalResponse>(
+    "/rentals",
+    payload,
+  );
 
   return data;
 };
 
-export const getMyRentals = async () => {
-  const response = await axiosInstance.get("/rentals");
+export const getMyRentalOrders = async () => {
+  const { data } = await axiosInstance.get<MyRentalsResponse>("/rentals");
 
-  return response.data.data.rentals;
+  return data;
 };
 
-// import { axiosInstance } from "@/lib/axios";
+export const getRentalOrderById = async (id: string) => {
+  const { data } = await axiosInstance.get<SingleRentalResponse>(
+    `/rentals/${id}`,
+  );
 
-// export interface CreateRentalPayload {
-//   gearId: string;
-//   startDate: string;
-//   endDate: string;
-//   quantity: number;
-// }
+  return data;
+};
 
-// export const createRental = async (payload: CreateRentalPayload) => {
-//   const { data } = await axiosInstance.post("/rentals", payload);
+export const getProviderOrders = async () => {
+  const { data } = await axiosInstance.get<ProviderOrdersResponse>(
+    "/rentals/provider/orders",
+  );
 
-//   return data;
-// };
+  return data;
+};
+
+export const updateRentalStatus = async (
+  id: string,
+  payload: UpdateRentalStatusPayload,
+) => {
+  const { data } = await axiosInstance.patch(
+    `/rentals/provider/orders/${id}`,
+    payload,
+  );
+
+  return data;
+};
