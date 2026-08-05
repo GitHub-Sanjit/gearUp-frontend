@@ -17,7 +17,10 @@ axiosInstance.interceptors.response.use(
 
     if (status === 401) {
       console.log("Unauthorized");
-      // Later we'll refresh access token here
+      // TODO:
+      // 1. Call /auth/refresh-token
+      // 2. Retry the original request
+      // 3. If refresh fails, redirect to login
     }
 
     return Promise.reject(error);
