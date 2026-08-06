@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-
 import type { Gear } from "@/types/gear";
 
 import {
@@ -14,12 +13,26 @@ import {
 } from "@/components/ui/table";
 
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+
+import { Pencil, Trash2 } from "lucide-react";
 
 interface Props {
   gears: Gear[];
+
+  onEdit?: (gear: Gear) => void;
+
+  onDelete?: (gear: Gear) => void;
 }
 
-export default function ProviderEquipmentTable({ gears }: Props) {
+const fallbackImage =
+  "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?q=80&w=800&auto=format&fit=crop";
+
+export default function ProviderEquipmentTable({
+  gears,
+  onEdit,
+  onDelete,
+}: Props) {
   return (
     <div className="rounded-md border">
       <Table>
@@ -38,59 +51,96 @@ export default function ProviderEquipmentTable({ gears }: Props) {
             <TableHead>Status</TableHead>
 
             <TableHead>Condition</TableHead>
+
+            <TableHead className="text-right">Action</TableHead>
           </TableRow>
         </TableHeader>
 
         <TableBody>
-          {gears.map((gear) => (
-            <TableRow key={gear.id}>
-              <TableCell>
-                {gear.image ? (
-                  <Image
-                    src={gear.image}
-                    alt={gear.name}
-                    width={48}
-                    height={48}
-                    className="rounded-md object-cover"
-                  />
-                ) : (
-                  <div className="flex h-12 w-12 items-center justify-center rounded-md bg-muted text-xs">
-                    N/A
-                  </div>
-                )}
-              </TableCell>
-
-              <TableCell>
-                <div>
-                  <p className="font-medium">{gear.name}</p>
-
-                  {gear.brand && (
-                    <p className="text-sm text-muted-foreground">
-                      {gear.brand}
-                    </p>
-                  )}
-                </div>
-              </TableCell>
-
-              <TableCell>{gear.category?.name ?? "N/A"}</TableCell>
-
-              <TableCell>${gear.dailyRentalPrice}/day</TableCell>
-
-              <TableCell>
-                {gear.availableQuantity}/{gear.stockQuantity}
-              </TableCell>
-
-              <TableCell>
-                <Badge variant={gear.isAvailable ? "default" : "secondary"}>
-                  {gear.isAvailable ? "Available" : "Unavailable"}
-                </Badge>
-              </TableCell>
-
-              <TableCell>
-                <Badge variant="outline">{gear.condition}</Badge>
+          {gears.length === 0 ? (
+            <TableRow>
+              <TableCell
+                colSpan={8}
+                className="h-24 text-center text-muted-foreground"
+              >
+                No equipment found.
               </TableCell>
             </TableRow>
-          ))}
+          ) : (
+            gears.map((gear) => (
+              <TableRow key={gear.id}>
+                {/* Image */}
+                <TableCell>
+                  <div className="relative h-12 w-12 overflow-hidden rounded-md">
+                    <Image
+                      src={gear.image || fallbackImage}
+                      alt={gear.name}
+                      fill
+                      sizes="48px"
+                      className="object-cover"
+                    />
+                  </div>
+                </TableCell>
+
+                {/* Name */}
+                <TableCell>
+                  <div>
+                    <p className="font-medium">{gear.name}</p>
+
+                    {gear.brand && (
+                      <p className="text-sm text-muted-foreground">
+                        {gear.brand}
+                      </p>
+                    )}
+                  </div>
+                </TableCell>
+
+                {/* Category */}
+                <TableCell>{gear.category?.name ?? "N/A"}</TableCell>
+
+                {/* Price */}
+                <TableCell>${gear.dailyRentalPrice}/day</TableCell>
+
+                {/* Stock */}
+                <TableCell>
+                  {gear.availableQuantity}/{gear.stockQuantity}
+                </TableCell>
+
+                {/* Status */}
+                <TableCell>
+                  <Badge variant={gear.isAvailable ? "default" : "secondary"}>
+                    {gear.isAvailable ? "Available" : "Unavailable"}
+                  </Badge>
+                </TableCell>
+
+                {/* Condition */}
+                <TableCell>
+                  <Badge variant="outline">{gear.condition}</Badge>
+                </TableCell>
+
+                {/* Actions */}
+                <TableCell>
+                  <div className="flex justify-end gap-2">
+                    <Button
+                      size="icon"
+                      variant="outline"
+                      onClick={() => onEdit?.(gear)}
+                    >
+                      <Pencil className="h-4 w-4" />
+                    </Button>
+
+                    <Button
+                      size="icon"
+                      variant="destructive"
+                      onClick={() => onDelete?.(gear)}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))
+          )}
         </TableBody>
       </Table>
     </div>
