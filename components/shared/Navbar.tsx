@@ -16,6 +16,7 @@ import { LayoutDashboard, LogOut, Settings, User } from "lucide-react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { toast } from "sonner";
+
 import { Button } from "../ui/button";
 
 const navItems = [
@@ -59,6 +60,7 @@ export default function Navbar() {
   const { user, logout } = useAuth();
 
   const router = useRouter();
+
   const pathname = usePathname();
 
   const handleDashboardRedirect = () => {
@@ -67,14 +69,17 @@ export default function Navbar() {
     switch (user.role) {
       case "ADMIN":
         router.push("/admin");
+
         break;
 
       case "PROVIDER":
         router.push("/provider");
+
         break;
 
       case "CUSTOMER":
         router.push("/dashboard");
+
         break;
 
       default:
@@ -112,31 +117,30 @@ export default function Navbar() {
                   href={item.href}
                   className={`
                     group
-          relative text-sm font-medium
-          transition-colors duration-200
-          hover:text-primary
-          focus-visible:outline-none
-          focus-visible:ring-2
-          focus-visible:ring-primary
-          focus-visible:ring-offset-2
-          rounded-sm
-          ${isActive ? "text-primary" : "text-muted-foreground"}
-        `}
+                    relative text-sm font-medium
+                    transition-colors duration-200
+                    hover:text-primary
+                    focus-visible:outline-none
+                    focus-visible:ring-2
+                    focus-visible:ring-primary
+                    focus-visible:ring-offset-2
+                    rounded-sm
+                    ${isActive ? "text-primary" : "text-muted-foreground"}
+                  `}
                 >
                   {item.label}
 
-                  {/* Active underline */}
                   <span
                     className={`
-            absolute
-            left-0
-            -bottom-2
-            h-0.5
-            bg-primary
-            transition-all
-            duration-300
-            ${isActive ? "w-full" : "w-0 group-hover:w-full"}
-          `}
+                      absolute
+                      left-0
+                      -bottom-2
+                      h-0.5
+                      bg-primary
+                      transition-all
+                      duration-300
+                      ${isActive ? "w-full" : "w-0 group-hover:w-full"}
+                    `}
                   />
                 </Link>
               );
@@ -148,7 +152,17 @@ export default function Navbar() {
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger>
-                <button className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center">
+                <button
+                  className="
+                      h-9
+                      w-9
+                      rounded-full
+                      bg-primary/10
+                      flex
+                      items-center
+                      justify-center
+                    "
+                >
                   <User className="h-5 w-5" />
                 </button>
               </DropdownMenuTrigger>
@@ -184,6 +198,14 @@ export default function Navbar() {
                     </DropdownMenuItem>
                   );
                 })}
+
+                {/* Provider Orders */}
+
+                {user.role === "PROVIDER" && (
+                  <DropdownMenuItem >
+                    <Link href="/provider/orders">Rental Orders</Link>
+                  </DropdownMenuItem>
+                )}
 
                 <DropdownMenuSeparator />
 
