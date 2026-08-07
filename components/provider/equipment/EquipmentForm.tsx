@@ -28,6 +28,8 @@ import {
 import { useCategories } from "@/hooks/useCategories";
 import { useCreateEquipment } from "@/hooks/useCreateEquipment";
 
+import { normalizeImageUrl } from "@/utils/image";
+
 import { toast } from "sonner";
 
 const equipmentSchema = z.object({
@@ -92,7 +94,9 @@ export default function EquipmentForm({ onSuccess }: EquipmentFormProps) {
     try {
       await createEquipment.mutateAsync({
         ...values,
-        image: values.image || undefined,
+
+        // normalize any image URL
+        image: normalizeImageUrl(values.image),
       });
 
       toast.success("Equipment added successfully");
@@ -107,7 +111,8 @@ export default function EquipmentForm({ onSuccess }: EquipmentFormProps) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+        {/* Name */}
         <FormField
           control={form.control}
           name="name"
@@ -124,6 +129,7 @@ export default function EquipmentForm({ onSuccess }: EquipmentFormProps) {
           )}
         />
 
+        {/* Brand */}
         <FormField
           control={form.control}
           name="brand"
@@ -138,6 +144,7 @@ export default function EquipmentForm({ onSuccess }: EquipmentFormProps) {
           )}
         />
 
+        {/* Image */}
         <FormField
           control={form.control}
           name="image"
@@ -148,10 +155,17 @@ export default function EquipmentForm({ onSuccess }: EquipmentFormProps) {
               <FormControl>
                 <Input placeholder="https://example.com/image.jpg" {...field} />
               </FormControl>
+
+              <p className="text-xs text-muted-foreground">
+                You can use any public image URL.
+              </p>
+
+              <FormMessage />
             </FormItem>
           )}
         />
 
+        {/* Description */}
         <FormField
           control={form.control}
           name="description"
@@ -166,6 +180,7 @@ export default function EquipmentForm({ onSuccess }: EquipmentFormProps) {
           )}
         />
 
+        {/* Price */}
         <FormField
           control={form.control}
           name="dailyRentalPrice"
@@ -186,6 +201,7 @@ export default function EquipmentForm({ onSuccess }: EquipmentFormProps) {
           )}
         />
 
+        {/* Stock */}
         <FormField
           control={form.control}
           name="stockQuantity"
@@ -206,6 +222,7 @@ export default function EquipmentForm({ onSuccess }: EquipmentFormProps) {
           )}
         />
 
+        {/* Available */}
         <FormField
           control={form.control}
           name="availableQuantity"
@@ -226,6 +243,7 @@ export default function EquipmentForm({ onSuccess }: EquipmentFormProps) {
           )}
         />
 
+        {/* Category */}
         <FormField
           control={form.control}
           name="categoryId"
@@ -254,6 +272,7 @@ export default function EquipmentForm({ onSuccess }: EquipmentFormProps) {
           )}
         />
 
+        {/* Condition */}
         <FormField
           control={form.control}
           name="condition"

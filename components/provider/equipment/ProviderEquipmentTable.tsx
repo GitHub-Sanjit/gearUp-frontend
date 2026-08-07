@@ -1,6 +1,8 @@
 "use client";
 
-import Image from "next/image";
+import { useState } from "react";
+
+import { normalizeImageUrl, FALLBACK_IMAGE } from "@/utils/image";
 import type { Gear } from "@/types/gear";
 
 import {
@@ -24,9 +26,6 @@ interface Props {
 
   onDelete?: (gear: Gear) => void;
 }
-
-const fallbackImage =
-  "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?q=80&w=800&auto=format&fit=crop";
 
 export default function ProviderEquipmentTable({
   gears,
@@ -68,81 +67,93 @@ export default function ProviderEquipmentTable({
             </TableRow>
           ) : (
             gears.map((gear) => (
-              <TableRow key={gear.id}>
-                {/* Image */}
-                <TableCell>
-                  <div className="relative h-12 w-12 overflow-hidden rounded-md">
-                    <Image
-                      src={gear.image || fallbackImage}
-                      alt={gear.name}
-                      fill
-                      sizes="48px"
-                      className="object-cover"
-                    />
-                  </div>
-                </TableCell>
-
-                {/* Name */}
-                <TableCell>
-                  <div>
-                    <p className="font-medium">{gear.name}</p>
-
-                    {gear.brand && (
-                      <p className="text-sm text-muted-foreground">
-                        {gear.brand}
-                      </p>
-                    )}
-                  </div>
-                </TableCell>
-
-                {/* Category */}
-                <TableCell>{gear.category?.name ?? "N/A"}</TableCell>
-
-                {/* Price */}
-                <TableCell>${gear.dailyRentalPrice}/day</TableCell>
-
-                {/* Stock */}
-                <TableCell>
-                  {gear.availableQuantity}/{gear.stockQuantity}
-                </TableCell>
-
-                {/* Status */}
-                <TableCell>
-                  <Badge variant={gear.isAvailable ? "default" : "secondary"}>
-                    {gear.isAvailable ? "Available" : "Unavailable"}
-                  </Badge>
-                </TableCell>
-
-                {/* Condition */}
-                <TableCell>
-                  <Badge variant="outline">{gear.condition}</Badge>
-                </TableCell>
-
-                {/* Actions */}
-                <TableCell>
-                  <div className="flex justify-end gap-2">
-                    <Button
-                      size="icon"
-                      variant="outline"
-                      onClick={() => onEdit?.(gear)}
-                    >
-                      <Pencil className="h-4 w-4" />
-                    </Button>
-
-                    <Button
-                      size="icon"
-                      variant="destructive"
-                      onClick={() => onDelete?.(gear)}
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </TableCell>
-              </TableRow>
+              <EquipmentRow
+                key={gear.id}
+                gear={gear}
+                onEdit={onEdit}
+                onDelete={onDelete}
+              />
             ))
           )}
         </TableBody>
       </Table>
     </div>
+  );
+}
+
+function EquipmentRow({
+  gear,
+  onEdit,
+  onDelete,
+}: {
+  gear: Gear;
+  onEdit?: (gear: Gear) => void;
+  onDelete?: (gear: Gear) => void;
+}) {
+  const [imageError, setImageError] = useState(false);
+
+  return (
+    <TableRow>
+      {/* Image */}
+      <TableCell>
+        <img
+          src={imageError ? FALLBACK_IMAGE : normalizeImageUrl(gear.image)}
+          alt={gear.name}
+          className="h-12 w-12 rounded-md object-cover"
+          onError={() => setImageError(true)}
+        />
+      </TableCell>
+
+      {/* Name */}
+      <TableCell>
+        <div>
+          <p className="font-medium">{gear.name}</p>
+
+          {gear.brand && (
+            <p className="text-sm text-muted-foreground">{gear.brand}</p>
+          )}
+        </div>
+      </TableCell>
+
+      {/* Category */}
+      <TableCell>{gear.category?.name ?? "N/A"}</TableCell>
+
+      {/* Price */}
+      <TableCell>${gear.dailyRentalPrice}/day</TableCell>
+
+      {/* Stock */}
+      <TableCell>
+        {gear.availableQuantity}/{gear.stockQuantity}
+      </TableCell>
+
+      {/* Status */}
+      <TableCell>
+        <Badge variant={gear.isAvailable ? "default" : "secondary"}>
+          {gear.isAvailable ? "Available" : "Unavailable"}
+        </Badge>
+      </TableCell>
+
+      {/* Condition */}
+      <TableCell>
+        <Badge variant="outline">{gear.condition}</Badge>
+      </TableCell>
+
+      {/* Actions */}
+      <TableCell>
+        <div className="flex justify-end gap-2">
+          <Button size="icon" variant="outline" onClick={() => onEdit?.(gear)}>
+            <Pencil className="h-4 w-4" />
+          </Button>
+
+          <Button
+            size="icon"
+            variant="destructive"
+            onClick={() => onDelete?.(gear)}
+          >
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        </div>
+      </TableCell>
+    </TableRow>
   );
 }
