@@ -24,7 +24,7 @@ export default function AuthProvider({
 
   const [isLoading, setIsLoading] = useState(true);
 
-  const refreshUser = async () => {
+  const refreshUser = async (): Promise<User | null> => {
     setIsLoading(true);
 
     try {

@@ -24,7 +24,7 @@ const actions = [
   {
     title: "Profile Settings",
     description: "Manage your account",
-    href: "/dashboard",
+    href: "/provider/profile",
     icon: UserCircle,
   },
 ];

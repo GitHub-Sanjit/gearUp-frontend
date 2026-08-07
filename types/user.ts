@@ -1,10 +1,21 @@
+// types/user.ts
+
 export interface User {
   id: string;
+
   name: string;
+
   email: string;
+
   role: "CUSTOMER" | "PROVIDER" | "ADMIN";
+
   profile?: {
-    phone?: string;
-    address?: string;
+    id?: string;
+    profilePhoto?: string | null;
+    bio?: string | null;
   };
+
+  createdAt?: string;
+
+  updatedAt?: string;
 }
