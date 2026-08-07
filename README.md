@@ -1,31 +1,52 @@
 # GearUp Frontend 🏕️🏋️
 
-A modern sports and outdoor gear rental platform built with Next.js.  
-Users can browse available gear, rent equipment, manage rentals, and providers can manage rental orders.
+A modern sports and outdoor gear rental platform built with **Next.js App Router**.
+
+Users can browse available sports/outdoor equipment, rent gears, manage rentals, and providers can manage equipment, rental requests, and their profiles.
 
 ---
 
 # 🚀 Project Overview
 
-GearUp allows customers to rent sports and outdoor equipment from providers.
+GearUp connects customers with equipment providers.
 
-The platform supports three main roles:
+The platform supports three roles:
 
-- Customer
-  - Browse gears
-  - View gear details
-  - Create rental orders
-  - Track rental history
+## Customer
 
-- Provider
-  - Manage listed gears
-  - View rental orders
-  - Update rental status
+Features:
 
-- Admin
-  - Manage users
-  - Monitor gears
-  - Manage rentals
+- Browse available gears
+- View gear details
+- Create rental orders
+- Track rental history
+- View rental status
+
+---
+
+## Provider
+
+Features:
+
+- Provider dashboard
+- Manage equipment
+- Add new equipment
+- Edit equipment
+- Delete equipment
+- View rental orders
+- Update rental status
+- Manage provider profile
+
+---
+
+## Admin
+
+Planned features:
+
+- Manage users
+- Monitor gears
+- Manage rentals
+- Platform analytics
 
 ---
 
@@ -40,17 +61,19 @@ The platform supports three main roles:
 - shadcn/ui
 - TanStack React Query
 - Axios
+- React Hook Form
+- Zod Validation
 - Sonner Toast
-- Next Image
+- Lucide Icons
+
+---
 
 ## Backend
 
 Backend repository:
 
 ```
-
 GearUp API
-
 ```
 
 Technologies:
@@ -66,54 +89,62 @@ Technologies:
 
 # 📂 Project Structure
 
-Current structure:
+Important application structure:
 
 ```
-
 app
+
+├── (authgroup)
+│   ├── login
+│   └── register
 │
 ├── (public)
-│   └── gears
-│       └── [id]
-│           └── page.tsx
-│
-├── (auth)
-│   └── login
+│   ├── gears
+│   │   └── [id]
+│   └── about
 │
 └── (dashboard)
-│
-├── dashboard
-│   ├── page.tsx
-│   └── rentals
-│       └── page.tsx
-│
-├── provider
-│   └── ...
-│
-└── admin
-└── ...
-
+    │
+    ├── dashboard
+    │   └── rentals
+    │
+    ├── provider
+    │   ├── equipment
+    │   ├── orders
+    │   └── profile
+    │
+    └── admin
 ```
 
 ---
 
 # ✅ Completed Features
 
-## Public
+# Public Features
 
-### Gear Listing
+## Gear Listing
 
 Completed:
 
-- View available gears
+- Display available gears
 - Gear cards
 - Category information
-- Gear details page
+- Gear filtering
+- Gear details navigation
 
+---
 
-### Gear Details Page
+## Gear Details Page
 
 Completed:
+
+Route:
+
+```
+/gears/[id]
+```
+
+Features:
 
 - Gear image
 - Name
@@ -121,65 +152,60 @@ Completed:
 - Price per day
 - Description
 - Availability
-- Rental form integration
-
+- Rental form
 
 ---
 
-# Rental System
+# 🔄 Rental System
 
 ## Completed
 
-### Types
+Customer rental workflow is completed.
+
+---
+
+## Rental Types
 
 Created:
 
 ```
-
 types/rental.ts
-
 ```
 
 Includes:
 
 - RentalOrder
 - RentalStatus
-- Payment
-- CreateRentalOrderPayload
+- Payment information
+- Create rental payload
 - API response types
-
 
 ---
 
-### Services
+## Rental Services
 
 Created:
 
 ```
-
 services/rental.service.ts
-
 ```
 
 Implemented:
 
-- createRentalOrder()
-- getMyRentalOrders()
-- getRentalOrderById()
-- getProviderOrders()
-- updateRentalStatus()
-
+- Create rental order
+- Get customer rentals
+- Get rental by ID
+- Get provider orders
+- Update rental status
 
 ---
 
-### React Query Hooks
+## React Query Hooks
 
 Created:
 
 ```
-
 hooks/useRentals.ts
-
 ```
 
 Implemented:
@@ -190,201 +216,368 @@ Customer:
 - useMyRentals()
 - useRentalById()
 
-
 Provider:
 
 - useProviderOrders()
 - useUpdateRentalStatus()
 
-
 ---
 
-### Customer Rental Form
+# Customer Rental Flow
 
-Created:
-
-```
-
-components/rental/RentalForm.tsx
+Current flow:
 
 ```
-
-Features:
-
-- Select start date
-- Select end date
-- Select quantity
-- Calculate total price
-- Create rental order
-- Redirect to dashboard rentals page
-
-
----
-
-### Customer My Rentals Page
-
-Created:
-
-```
-
-app/(dashboard)/dashboard/rentals/page.tsx
-
-```
-
-Features:
-
-- Display rental history
-- Show gear image
-- Show rental dates
-- Show quantity
-- Show total amount
-- Show payment status
-- Show rental status
-
-
----
-
-# 🔄 Current Rental Flow
-
-Current implementation:
-
-```
-
 Customer
+
+   ↓
 
 Gear Details Page
 
-```
-    |
-    ↓
-```
+   ↓
 
 RentalForm
 
-```
-    |
-    ↓
-```
+   ↓
 
-POST /api/rentals
+POST /rentals
 
-```
-    |
-    ↓
-```
+   ↓
 
 RentalOrder Created
 
-```
-    |
-    ↓
-```
+   ↓
 
-/dashboard/rentals
-
+Dashboard Rentals Page
 ```
 
 ---
 
-# ⏳ Remaining Tasks
+# Customer Dashboard
 
-## Provider Side
-
-Next implementation:
+Route:
 
 ```
+app/(dashboard)/dashboard/rentals/page.tsx
+```
 
-app/(dashboard)/provider/orders/page.tsx
+Completed:
 
+- Rental history
+- Gear information
+- Rental dates
+- Quantity
+- Total amount
+- Payment status
+- Rental status
+
+---
+
+# Provider Dashboard
+
+Provider dashboard foundation completed.
+
+Route:
+
+```
+app/(dashboard)/provider
+```
+
+---
+
+## Provider Dashboard Components
+
+Created:
+
+```
+components/provider/dashboard
+```
+
+Includes:
+
+- Dashboard statistics
+- Equipment availability
+- Revenue card
+- Recent rental requests
+- Rental status overview
+- Quick actions
+
+---
+
+# Provider Equipment Management
+
+Completed.
+
+Route:
+
+```
+/provider/equipment
 ```
 
 Features:
 
-- View rental requests
-- View customer information
-- View rented gear
-- Update rental status
+✅ View provider equipment
+
+✅ Add equipment
+
+✅ Edit equipment
+
+✅ Delete equipment
+
+Components:
+
+```
+components/provider/equipment
+```
+
+Includes:
+
+- Equipment table
+- Add dialog
+- Edit dialog
+- Delete confirmation
+- Loading state
+- Empty state
+
+---
+
+# Provider Orders
+
+Structure created.
+
+Route:
+
+```
+/provider/orders
+```
+
+Components:
+
+```
+components/provider/orders
+```
+
+Created:
+
+- ProviderOrdersTable
+- ProviderOrderRow
+- ProviderStatusBadge
+- UpdateRentalStatusDialog
+- EmptyOrders
+- LoadingSkeleton
 
 Status flow:
 
 ```
-
 PLACED
-|
+
 ↓
+
 CONFIRMED
-|
+
 ↓
+
 PICKED_UP
-|
+
 ↓
+
 RETURNED
-
 ```
-
 
 ---
 
-## Admin Side
+# Provider Profile
 
-Pending:
+Profile development started.
 
-```
-
-app/(dashboard)/admin/rentals/page.tsx
+Route:
 
 ```
+/provider/profile
+```
 
-Features:
+Current components:
 
-- View all rentals
-- Search rentals
-- Filter by status
-- Pagination
+```
+components/provider/profile
+```
 
+Files:
+
+```
+ProfileHeader.tsx
+
+ProfileInformation.tsx
+
+ProfileSkeleton.tsx
+
+ProfileForm.tsx
+```
 
 ---
 
-## Payment System
+## Completed Profile Features
 
-Pending:
+Implemented:
 
-- Payment integration
-- Payment status update
-- Payment history
-
+- Provider profile header
+- Avatar display
+- Name display
+- Email display
+- Role badge
+- Profile information card
+- Edit profile form UI
+- Name editing
+- Bio editing
+- Profile photo URL
+- Email locked/read-only
 
 ---
 
-# 🔌 API Base URL
+## Profile Update Architecture
 
-Axios configuration:
+Added:
 
 ```
+services/auth.service.ts
+```
 
-[http://localhost:5000/api](http://localhost:5000/api)
+New method:
 
+```ts
+updateProfile();
+```
+
+Endpoint:
+
+```
+PATCH /users/me
+```
+
+Payload:
+
+```json
+{
+  "name": "Provider Name",
+  "bio": "Provider description",
+  "profilePhoto": "image-url"
+}
+```
+
+Important:
+
+Email is not editable.
+
+---
+
+Created:
+
+```
+hooks/auth/useUpdateProfile.ts
+```
+
+Handles:
+
+- Profile mutation
+- Toast notifications
+- Refreshing authenticated user
+
+---
+
+# Current Profile Issue
+
+Latest work introduced edit mode switching.
+
+Expected behavior:
+
+Default:
+
+```
+Profile View
+```
+
+Click:
+
+```
+Edit Profile Button
+```
+
+Then:
+
+```
+Edit Profile Form
+```
+
+Current state:
+
+- Profile page needs debugging
+- Edit mode integration is not fully completed yet
+
+Next task:
+
+Fix profile view/edit switching.
+
+---
+
+# Authentication
+
+Current authentication architecture:
+
+```
+AuthProvider
+
+      ↓
+
+useAuth()
+
+      ↓
+
+Dashboard Components
+```
+
+Important files:
+
+```
+providers/AuthProvider.tsx
+
+hooks/useAuth.ts
+
+hooks/auth/useCurrentUser.ts
+```
+
+---
+
+# API Configuration
+
+Axios:
+
+```
+lib/axios.ts
 ```
 
 Environment:
 
 ```
-
 NEXT_PUBLIC_API_URL=
+```
 
-````
+Backend example:
+
+```
+http://localhost:5000/api
+```
 
 ---
 
-# ▶️ Run Project Locally
+# ▶️ Running Project
 
-Install dependencies:
+Install:
 
 ```bash
 npm install
-````
+```
 
-Run development server:
+Development:
 
 ```bash
 npm run dev
@@ -398,7 +591,9 @@ http://localhost:3000
 
 ---
 
-# 🧪 Testing Rental Flow
+# 🧪 Testing Checklist
+
+## Customer Rental
 
 1. Login as CUSTOMER
 
@@ -408,19 +603,47 @@ http://localhost:3000
 /gears/[id]
 ```
 
-3. Fill rental form:
+3. Create rental
 
-* Start date
-* End date
-* Quantity
-
-4. Confirm rental
-
-5. Check:
+4. Check:
 
 ```
 /dashboard/rentals
 ```
+
+---
+
+## Provider Equipment
+
+1. Login as PROVIDER
+
+2. Open:
+
+```
+/provider/equipment
+```
+
+3. Test:
+
+- Add equipment
+- Edit equipment
+- Delete equipment
+
+---
+
+## Provider Profile
+
+Currently testing:
+
+```
+/provider/profile
+```
+
+Pending:
+
+- Fix edit mode
+- Verify update flow
+- Improve layout
 
 ---
 
@@ -429,20 +652,67 @@ http://localhost:3000
 Date:
 
 ```
-August 6, 2026
+August 8, 2026
 ```
 
 Current milestone:
 
 ```
-Rental System - Customer Side Completed
+Customer Rental System Completed
+
+Provider Equipment Management Completed
+
+Provider Dashboard In Progress
+
+Provider Profile In Progress
 ```
 
-Next milestone:
+---
 
-```
-Provider Rental Management
-```
+# Next Development Steps
+
+Priority order:
+
+## 1. Fix Provider Profile
+
+Complete:
+
+- View mode
+- Edit mode
+- Save flow
+- Cancel button
+- Account information card
+
+---
+
+## 2. Complete Provider Orders
+
+Implement:
+
+- Rental request table
+- Status updates
+- Customer information
+- Rental details
+
+---
+
+## 3. Admin Dashboard
+
+Implement:
+
+- User management
+- Gear monitoring
+- Rental monitoring
+
+---
+
+## 4. Payment System
+
+Future:
+
+- Payment gateway
+- Payment history
+- Payment status handling
 
 ---
 
@@ -450,20 +720,20 @@ Provider Rental Management
 
 Important:
 
-* `(dashboard)` is a Next.js route group and does not appear in URLs.
-* Customer dashboard routes live under:
+- `(dashboard)` is a Next.js route group and does not appear in URLs.
+- Customer routes:
 
 ```
 app/(dashboard)/dashboard
 ```
 
-* Provider routes live under:
+- Provider routes:
 
 ```
 app/(dashboard)/provider
 ```
 
-* Admin routes live under:
+- Admin routes:
 
 ```
 app/(dashboard)/admin
@@ -471,18 +741,8 @@ app/(dashboard)/admin
 
 ---
 
-# 👨‍💻 Author
+# Author
 
 Sanjit Sarkar
 
 Full Stack Developer
-
-````
-
-Tomorrow we can continue directly from:
-
-```bash
-app/(dashboard)/provider/orders/page.tsx
-````
-
-and build the provider rental management flow.
