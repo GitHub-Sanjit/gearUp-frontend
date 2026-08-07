@@ -11,8 +11,13 @@ export interface LoginPayload {
   password: string;
 }
 
-export const authService = {
+export interface UpdateProfilePayload {
+  name: string;
+  bio?: string;
+  profilePhoto?: string;
+}
 
+export const authService = {
   register: async (data: RegisterPayload) => {
     const response = await axiosInstance.post("/users/register", data);
 
@@ -30,9 +35,16 @@ export const authService = {
 
     return response.data;
   },
-  getCurrentUser: async () => {
-    const res = await axiosInstance.get("/users/me");
 
-    return res.data;
+  getCurrentUser: async () => {
+    const response = await axiosInstance.get("/users/me");
+
+    return response.data;
+  },
+
+  updateProfile: async (data: UpdateProfilePayload) => {
+    const response = await axiosInstance.patch("/users/me", data);
+
+    return response.data;
   },
 };

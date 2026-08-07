@@ -31,7 +31,9 @@
 │   │       ├── layout.tsx
 │   │       ├── orders
 │   │       │   └── page.tsx
-│   │       └── page.tsx
+│   │       ├── page.tsx
+│   │       └── profile
+│   │           └── page.tsx
 │   ├── (public)
 │   │   ├── about
 │   │   ├── gears
@@ -42,7 +44,9 @@
 │   │   └── page.tsx
 │   ├── favicon.ico
 │   ├── globals.css
-│   └── layout.tsx
+│   ├── layout.tsx
+│   └── unauthorized
+│       └── page.tsx
 ├── components
 │   ├── dashboard
 │   │   ├── DashboardHeader.tsx
@@ -86,13 +90,18 @@
 │   │   │   ├── EquipmentForm.tsx
 │   │   │   ├── LoadingSkeleton.tsx
 │   │   │   └── ProviderEquipmentTable.tsx
-│   │   └── orders
-│   │       ├── EmptyOrders.tsx
-│   │       ├── LoadingSkeleton.tsx
-│   │       ├── ProviderOrderRow.tsx
-│   │       ├── ProviderOrdersTable.tsx
-│   │       ├── ProviderStatusBadge.tsx
-│   │       └── UpdateRentalStatusDialog.tsx
+│   │   ├── orders
+│   │   │   ├── EmptyOrders.tsx
+│   │   │   ├── LoadingSkeleton.tsx
+│   │   │   ├── ProviderOrderRow.tsx
+│   │   │   ├── ProviderOrdersTable.tsx
+│   │   │   ├── ProviderStatusBadge.tsx
+│   │   │   └── UpdateRentalStatusDialog.tsx
+│   │   └── profile
+│   │       ├── ProfileForm.tsx
+│   │       ├── ProfileHeader.tsx
+│   │       ├── ProfileInformation.tsx
+│   │       └── ProfileSkeleton.tsx
 │   ├── rental
 │   │   └── RentalForm.tsx
 │   ├── shared
@@ -130,7 +139,8 @@
 │   │   ├── useCurrentUser.ts
 │   │   ├── useLogin.ts
 │   │   ├── useLogout.ts
-│   │   └── useRegisger.ts
+│   │   ├── useRegisger.ts
+│   │   └── useUpdateProfile.ts
 │   ├── useAuth.ts
 │   ├── useCategories.ts
 │   ├── useCreateEquipment.ts
