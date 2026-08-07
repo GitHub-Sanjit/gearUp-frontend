@@ -6,6 +6,8 @@ import RecentRentalRequests from "@/components/provider/dashboard/RecentRentalRe
 import PopularEquipment from "@/components/provider/dashboard/PopularEquipment";
 import DashboardSkeleton from "@/components/provider/dashboard/DashboardSkeleton";
 import RentalStatusOverview from "@/components/provider/dashboard/RentalStatusOverview";
+import EquipmentAvailability from "@/components/provider/dashboard/EquipmentAvailability";
+import QuickActions from "@/components/provider/dashboard/QuickActions";
 
 import { useProviderEquipment } from "@/hooks/useProviderEquipment";
 import { useProviderOrders } from "@/hooks/useRentals";
@@ -107,6 +109,14 @@ export default function ProviderPage() {
         <PopularEquipment orders={orders} />
       </div>
       <RentalStatusOverview orders={orders} />
+
+      <EquipmentAvailability gears={equipment} />
+
+      <QuickActions />
+
+<RecentRentalRequests
+  orders={orders}
+/>
 
       {/* Recent Requests */}
       <RecentRentalRequests orders={orders} />

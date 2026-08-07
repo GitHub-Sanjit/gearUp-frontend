@@ -69,6 +69,15 @@
 │   │   ├── Testimonials.tsx
 │   │   └── WhyChooseUs.tsx
 │   ├── provider
+│   │   ├── dashboard
+│   │   │   ├── DashboardSkeleton.tsx
+│   │   │   ├── EquipmentAvailability.tsx
+│   │   │   ├── PopularEquipment.tsx
+│   │   │   ├── ProviderStatsCards.tsx
+│   │   │   ├── QuickActions.tsx
+│   │   │   ├── RecentRentalRequests.tsx
+│   │   │   ├── RentalStatusOverview.tsx
+│   │   │   └── RevenueCard.tsx
 │   │   ├── equipment
 │   │   │   ├── AddEquipmentDialog.tsx
 │   │   │   ├── DeleteEquipmentDialog.tsx
@@ -182,3 +191,4 @@
 │   ├── rental.ts
 │   └── user.ts
 └── utils
+    └── image.ts
