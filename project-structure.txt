@@ -1,0 +1,184 @@
+.
+├── .env
+├── .gitignore
+├── AGENTS.md
+├── CLAUDE.md
+├── README.md
+├── app
+│   ├── (authgroup)
+│   │   ├── _actions
+│   │   │   └── authActions.ts
+│   │   ├── layout.tsx
+│   │   ├── login
+│   │   │   └── page.tsx
+│   │   └── register
+│   │       ├── _components
+│   │       │   └── RegisterForm.tsx
+│   │       └── page.tsx
+│   ├── (dashboard)
+│   │   ├── admin
+│   │   │   ├── layout.tsx
+│   │   │   └── page.tsx
+│   │   ├── dashboard
+│   │   │   ├── layout.tsx
+│   │   │   ├── page.tsx
+│   │   │   └── rentals
+│   │   │       └── page.tsx
+│   │   ├── layout.tsx
+│   │   └── provider
+│   │       ├── equipment
+│   │       │   └── page.tsx
+│   │       ├── layout.tsx
+│   │       ├── orders
+│   │       │   └── page.tsx
+│   │       └── page.tsx
+│   ├── (public)
+│   │   ├── about
+│   │   ├── gears
+│   │   │   ├── [id]
+│   │   │   │   └── page.tsx
+│   │   │   └── page.tsx
+│   │   ├── layout.tsx
+│   │   └── page.tsx
+│   ├── favicon.ico
+│   ├── globals.css
+│   └── layout.tsx
+├── components
+│   ├── dashboard
+│   │   ├── DashboardHeader.tsx
+│   │   ├── DashboardLayout.tsx
+│   │   ├── DashboardSidebar.tsx
+│   │   ├── MyRentals.tsx
+│   │   └── page.tsx
+│   ├── forms
+│   │   ├── auth
+│   │   │   └── LoginForm.tsx
+│   │   └── page.tsx
+│   ├── gear
+│   │   ├── GearCard.tsx
+│   │   ├── GearFilters.tsx
+│   │   ├── GearGrid.tsx
+│   │   ├── RentalForm.tsx
+│   │   └── page.tsx
+│   ├── home
+│   │   ├── CTASection.tsx
+│   │   ├── Categories.tsx
+│   │   ├── FeaturedGear.tsx
+│   │   ├── Hero.tsx
+│   │   ├── HowItWorks.tsx
+│   │   ├── Testimonials.tsx
+│   │   └── WhyChooseUs.tsx
+│   ├── provider
+│   │   ├── equipment
+│   │   │   ├── AddEquipmentDialog.tsx
+│   │   │   ├── DeleteEquipmentDialog.tsx
+│   │   │   ├── EditEquipmentDialog.tsx
+│   │   │   ├── EmptyEquipment.tsx
+│   │   │   ├── EquipmentForm.tsx
+│   │   │   ├── LoadingSkeleton.tsx
+│   │   │   └── ProviderEquipmentTable.tsx
+│   │   └── orders
+│   │       ├── EmptyOrders.tsx
+│   │       ├── LoadingSkeleton.tsx
+│   │       ├── ProviderOrderRow.tsx
+│   │       ├── ProviderOrdersTable.tsx
+│   │       ├── ProviderStatusBadge.tsx
+│   │       └── UpdateRentalStatusDialog.tsx
+│   ├── rental
+│   │   └── RentalForm.tsx
+│   ├── shared
+│   │   ├── AuthDebug.tsx
+│   │   ├── Footer.tsx
+│   │   ├── MobileMenu.tsx
+│   │   ├── Navbar.tsx
+│   │   └── page.tsx
+│   └── ui
+│       ├── alert-dialog.tsx
+│       ├── alert.tsx
+│       ├── avatar.tsx
+│       ├── badge.tsx
+│       ├── button.tsx
+│       ├── card.tsx
+│       ├── dialog.tsx
+│       ├── dropdown-menu.tsx
+│       ├── form.tsx
+│       ├── input.tsx
+│       ├── label.tsx
+│       ├── pagination.tsx
+│       ├── radio-group.tsx
+│       ├── select.tsx
+│       ├── separator.tsx
+│       ├── sheet.tsx
+│       ├── skeleton.tsx
+│       ├── table.tsx
+│       └── textarea.tsx
+├── components.json
+├── constants
+│   └── index.ts
+├── eslint.config.mjs
+├── hooks
+│   ├── auth
+│   │   ├── useCurrentUser.ts
+│   │   ├── useLogin.ts
+│   │   ├── useLogout.ts
+│   │   └── useRegisger.ts
+│   ├── useAuth.ts
+│   ├── useCategories.ts
+│   ├── useCreateEquipment.ts
+│   ├── useCreateRental.ts
+│   ├── useDeleteEquipment.ts
+│   ├── useFeaturedGears.ts
+│   ├── useGear.ts
+│   ├── useGears.ts
+│   ├── useProviderEquipment.ts
+│   ├── useRentals.ts
+│   └── useUpdateEquipment.ts
+├── lib
+│   ├── axios.ts
+│   ├── categoryIcons.ts
+│   ├── jwt.ts
+│   ├── queryClient.ts
+│   └── utils.ts
+├── next-env.d.ts
+├── next.config.ts
+├── package-lock.json
+├── package.json
+├── postcss.config.mjs
+├── project-structure.txt
+├── providers
+│   ├── AuthProvider.tsx
+│   ├── QueryProvider.tsx
+│   ├── ThemeProvider.tsx
+│   └── index.tsx
+├── proxy.ts
+├── public
+│   ├── file.svg
+│   ├── globe.svg
+│   ├── images
+│   │   └── hero.png
+│   ├── next.svg
+│   ├── vercel.svg
+│   └── window.svg
+├── schemas
+│   ├── auth.schema.ts
+│   └── rental.schema.ts
+├── scripts
+│   └── generate-project-structure.js
+├── services
+│   ├── admin.service.ts
+│   ├── auth.service.ts
+│   ├── category.service.ts
+│   ├── gear.service.ts
+│   ├── payment.service.ts
+│   ├── provider-equipment.service.ts
+│   ├── provider.service.ts
+│   └── rental.service.ts
+├── tsconfig.json
+├── types
+│   ├── auth.ts
+│   ├── booking.ts
+│   ├── category.ts
+│   ├── gear.ts
+│   ├── rental.ts
+│   └── user.ts
+└── utils
