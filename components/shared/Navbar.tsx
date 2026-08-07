@@ -4,17 +4,23 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
 import { useAuth } from "@/hooks/useAuth";
 
-import { LayoutDashboard, LogOut, Settings, User } from "lucide-react";
+import {
+  ClipboardList,
+  LayoutDashboard,
+  LogOut,
+  Package,
+  Settings,
+  User,
+} from "lucide-react";
 
 import Link from "next/link";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { Button } from "../ui/button";
@@ -38,54 +44,12 @@ const navItems = [
   },
 ];
 
-const userMenuItems = [
-  {
-    label: "Dashboard",
-    icon: LayoutDashboard,
-    action: "dashboard",
-  },
-  {
-    label: "Profile",
-    icon: User,
-    action: "profile",
-  },
-  {
-    label: "Settings",
-    icon: Settings,
-    action: "settings",
-  },
-];
-
 export default function Navbar() {
   const { user, logout } = useAuth();
 
   const router = useRouter();
 
   const pathname = usePathname();
-
-  const handleDashboardRedirect = () => {
-    if (!user) return;
-
-    switch (user.role) {
-      case "ADMIN":
-        router.push("/admin");
-
-        break;
-
-      case "PROVIDER":
-        router.push("/provider");
-
-        break;
-
-      case "CUSTOMER":
-        router.push("/dashboard");
-
-        break;
-
-      default:
-        router.push("/");
-    }
-  };
 
   const handleLogout = async () => {
     await logout();
@@ -95,132 +59,151 @@ export default function Navbar() {
     router.push("/login");
   };
 
+  const dashboardPath =
+    user?.role === "ADMIN"
+      ? "/admin"
+      : user?.role === "PROVIDER"
+        ? "/provider"
+        : "/dashboard";
+
+  const profilePath =
+    user?.role === "ADMIN"
+      ? "/admin/profile"
+      : user?.role === "PROVIDER"
+        ? "/provider/profile"
+        : "/dashboard/profile";
+
   return (
     <nav className="border-b">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="flex h-16 items-center justify-between">
-          {/* Logo */}
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
+        {/* Logo */}
 
-          <Link href="/" className="text-2xl font-bold">
-            GearUp
-          </Link>
+        <Link href="/" className="text-2xl font-bold">
+          GearUp
+        </Link>
 
-          {/* Navigation */}
+        {/* Navigation */}
 
-          <div className="hidden md:flex items-center gap-8">
-            {navItems.map((item) => {
-              const isActive = pathname === item.href;
+        <div className="hidden items-center gap-8 md:flex">
+          {navItems.map((item) => {
+            const isActive = pathname === item.href;
 
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`
+                  group relative rounded-sm text-sm font-medium
+                  transition-colors hover:text-primary
+                  ${isActive ? "text-primary" : "text-muted-foreground"}
+                `}
+              >
+                {item.label}
+
+                <span
                   className={`
-                    group
-                    relative text-sm font-medium
-                    transition-colors duration-200
-                    hover:text-primary
-                    focus-visible:outline-none
-                    focus-visible:ring-2
-                    focus-visible:ring-primary
-                    focus-visible:ring-offset-2
-                    rounded-sm
-                    ${isActive ? "text-primary" : "text-muted-foreground"}
+                    absolute
+                    -bottom-2
+                    left-0
+                    h-0.5
+                    bg-primary
+                    transition-all
+                    duration-300
+                    ${isActive ? "w-full" : "w-0 group-hover:w-full"}
                   `}
-                >
-                  {item.label}
-
-                  <span
-                    className={`
-                      absolute
-                      left-0
-                      -bottom-2
-                      h-0.5
-                      bg-primary
-                      transition-all
-                      duration-300
-                      ${isActive ? "w-full" : "w-0 group-hover:w-full"}
-                    `}
-                  />
-                </Link>
-              );
-            })}
-          </div>
-
-          {/* User Section */}
-
-          {user ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger>
-                <button
-                  className="
-                      h-9
-                      w-9
-                      rounded-full
-                      bg-primary/10
-                      flex
-                      items-center
-                      justify-center
-                    "
-                >
-                  <User className="h-5 w-5" />
-                </button>
-              </DropdownMenuTrigger>
-
-              <DropdownMenuContent align="end">
-                <DropdownMenuLabel>
-                  <div>
-                    <p className="font-medium">{user.name}</p>
-
-                    <p className="text-xs text-muted-foreground">
-                      {user.email}
-                    </p>
-                  </div>
-                </DropdownMenuLabel>
-
-                <DropdownMenuSeparator />
-
-                {userMenuItems.map((item) => {
-                  const Icon = item.icon;
-
-                  return (
-                    <DropdownMenuItem
-                      key={item.action}
-                      onClick={
-                        item.action === "dashboard"
-                          ? handleDashboardRedirect
-                          : undefined
-                      }
-                    >
-                      <Icon className="mr-2 h-4 w-4" />
-
-                      {item.label}
-                    </DropdownMenuItem>
-                  );
-                })}
-
-                {/* Provider Orders */}
-
-                {user.role === "PROVIDER" && (
-                  <DropdownMenuItem >
-                    <Link href="/provider/orders">Rental Orders</Link>
-                  </DropdownMenuItem>
-                )}
-
-                <DropdownMenuSeparator />
-
-                <DropdownMenuItem onClick={handleLogout}>
-                  <LogOut className="mr-2 h-4 w-4" />
-                  Logout
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          ) : (
-            <Link href="/login">
-              <Button>Login</Button>
-            </Link>
-          )}
+                />
+              </Link>
+            );
+          })}
         </div>
+
+        {/* User Menu */}
+
+        {user ? (
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <button
+                className="
+                    flex h-9 w-9 items-center justify-center
+                    rounded-full bg-primary/10
+                    transition hover:bg-primary/20
+                  "
+              >
+                <User className="h-5 w-5" />
+              </button>
+            </DropdownMenuTrigger>
+
+            <DropdownMenuContent align="end">
+              {/* User Information */}
+
+              <div className="px-3 py-2">
+                <p className="font-medium">{user.name}</p>
+
+                <p className="text-xs text-muted-foreground">{user.email}</p>
+
+                <p className="mt-1 text-xs font-semibold text-primary">
+                  {user.role}
+                </p>
+              </div>
+
+              <DropdownMenuSeparator />
+
+              {/* Dashboard */}
+
+              <DropdownMenuItem onClick={() => router.push(dashboardPath)}>
+                <LayoutDashboard className="mr-2 h-4 w-4" />
+                Dashboard
+              </DropdownMenuItem>
+
+              {/* Provider Menu */}
+
+              {user.role === "PROVIDER" && (
+                <>
+                  <DropdownMenuItem
+                    onClick={() => router.push("/provider/equipment")}
+                  >
+                    <Package className="mr-2 h-4 w-4" />
+                    My Equipment
+                  </DropdownMenuItem>
+
+                  <DropdownMenuItem
+                    onClick={() => router.push("/provider/orders")}
+                  >
+                    <ClipboardList className="mr-2 h-4 w-4" />
+                    Rental Orders
+                  </DropdownMenuItem>
+                </>
+              )}
+
+              {/* Profile */}
+
+              <DropdownMenuItem onClick={() => router.push(profilePath)}>
+                <User className="mr-2 h-4 w-4" />
+                Profile
+              </DropdownMenuItem>
+
+              {/* Settings */}
+
+              <DropdownMenuItem>
+                <Settings className="mr-2 h-4 w-4" />
+                Settings
+              </DropdownMenuItem>
+
+              <DropdownMenuSeparator />
+
+              {/* Logout */}
+
+              <DropdownMenuItem onClick={handleLogout}>
+                <LogOut className="mr-2 h-4 w-4" />
+                Logout
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        ) : (
+          <Link href="/login">
+            <Button>Login</Button>
+          </Link>
+        )}
       </div>
     </nav>
   );

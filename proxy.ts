@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { jwtUtils } from "./lib/jwt";
 
-const AUTH_ROUTES = ["/login", "/register"];
+const AUTH_ROUTES = ["/login", "/register", "/unauthorized"];
 
 const PROTECTED_ROUTES = ["/admin", "/provider", "/dashboard"];
 
@@ -15,6 +15,13 @@ const ROLE_ROUTES = {
 
 const hasRouteAccess = (role: string, pathname: string) => {
   const allowedRoutes = ROLE_ROUTES[role as keyof typeof ROLE_ROUTES];
+
+  console.log("CHECK ACCESS:", {
+    role,
+    pathname,
+    allowedRoutes,
+    result: allowedRoutes?.some((route) => pathname.startsWith(route)),
+  });
 
   if (!allowedRoutes) {
     return false;
@@ -38,6 +45,8 @@ export async function proxy(request: NextRequest) {
 
     if (result.success) {
       user = result.data;
+
+      console.log("PROXY USER:", user);
     }
   }
 
@@ -68,7 +77,19 @@ export async function proxy(request: NextRequest) {
   */
 
   if (AUTH_ROUTES.includes(pathname) && user) {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
+    switch (user.role) {
+      case "ADMIN":
+        return NextResponse.redirect(new URL("/admin", request.url));
+
+      case "PROVIDER":
+        return NextResponse.redirect(new URL("/provider", request.url));
+
+      case "CUSTOMER":
+        return NextResponse.redirect(new URL("/dashboard", request.url));
+
+      default:
+        return NextResponse.redirect(new URL("/", request.url));
+    }
   }
 
   return NextResponse.next();

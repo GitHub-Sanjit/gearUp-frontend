@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -11,11 +12,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
 import { authService } from "@/services/auth.service";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import { toast } from "sonner";
 
 import { useAuth } from "@/hooks/useAuth";
+
 import {
   Form,
   FormControl,
@@ -24,14 +26,15 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+
 import Link from "next/link";
 
 const LoginForm = () => {
   const router = useRouter();
 
-  const searchParams = useSearchParams();
 
-  const redirectTo = searchParams.get("redirectTo") || "/dashboard";
+
+
 
   const { refreshUser } = useAuth();
 
@@ -58,16 +61,12 @@ const LoginForm = () => {
 
       toast.success("Login successful");
 
-      // If the user was trying to access a protected page,
-      // send them there first.
-      if (redirectTo !== "/dashboard") {
-        console.log("REDIRECTING TO:", redirectTo);
-        router.push(redirectTo);
+      if (!user) {
+        router.push("/");
         return;
       }
 
-      // Otherwise redirect based on role
-      switch (user?.role) {
+      switch (user.role) {
         case "ADMIN":
           router.push("/admin");
           break;
@@ -76,20 +75,24 @@ const LoginForm = () => {
           router.push("/provider");
           break;
 
-        default:
+        case "CUSTOMER":
           router.push("/dashboard");
           break;
+
+        default:
+          router.push("/");
       }
     } catch (error: any) {
       console.log("LOGIN ERROR:", error);
+
       toast.error(error?.response?.data?.message || "Login failed");
     }
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <Card className="p-6 space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <Card className="space-y-5 p-6">
           <FormField
             control={form.control}
             name="email"
@@ -138,6 +141,7 @@ const LoginForm = () => {
             {form.formState.isSubmitting ? "Logging in..." : "Login"}
           </Button>
         </Card>
+
         <p className="text-center text-sm text-muted-foreground">
           Don&apos;t have an account?{" "}
           <Link href="/register" className="text-primary hover:underline">
