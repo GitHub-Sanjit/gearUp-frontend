@@ -19,7 +19,7 @@ export interface Gear {
   stockQuantity: number;
   availableQuantity: number;
 
-  condition: "GOOD" | "FAIR" | "POOR";
+  ccondition: "NEW" | "EXCELLENT" | "GOOD" | "FAIR";
 
   isAvailable: boolean;
 
