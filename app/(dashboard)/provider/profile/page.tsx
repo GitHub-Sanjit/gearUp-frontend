@@ -54,15 +54,22 @@ export default function ProviderProfilePage() {
         <ProfileHeader user={user} onEdit={() => setIsEditing(true)} />
       </div>
 
-      {/* Content */}
+      {/* Profile Content */}
 
       {isEditing ? (
         <div className="space-y-4">
-          <ProfileForm user={user} />
+          <ProfileForm user={user} onSuccess={() => setIsEditing(false)} />
 
-          <Button variant="outline" onClick={() => setIsEditing(false)}>
-            Cancel Editing
-          </Button>
+          <div className="flex justify-end">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setIsEditing(false)}
+              disabled={false}
+            >
+              Cancel Editing
+            </Button>
+          </div>
         </div>
       ) : (
         <div className="rounded-xl border bg-background shadow-sm">

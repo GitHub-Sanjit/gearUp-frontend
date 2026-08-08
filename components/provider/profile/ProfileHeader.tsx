@@ -17,22 +17,29 @@ interface ProfileHeaderProps {
 export default function ProfileHeader({ user, onEdit }: ProfileHeaderProps) {
   const profileImage = user.profile?.profilePhoto;
 
-  const initials = user.name
-    ?.split(" ")
-    .map((word) => word[0])
-    .join("")
-    .slice(0, 2)
-    .toUpperCase();
+  const initials =
+    user.name
+      ?.split(" ")
+      .map((word) => word[0])
+      .join("")
+      .slice(0, 2)
+      .toUpperCase() || "U";
+
+  const memberSince = user.createdAt
+    ? new Date(user.createdAt).getFullYear()
+    : "--";
 
   return (
-    <div className="px-8 pb-8">
-      <div className="-mt-14 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-        {/* Left */}
+    <div className="px-6 pb-8 pt-6 sm:px-8">
+      {/* Main Profile Header */}
+
+      <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+        {/* Left Section */}
 
         <div className="flex flex-col items-center gap-5 sm:flex-row sm:items-end">
           {/* Avatar */}
 
-          <div className="flex h-28 w-28 items-center justify-center overflow-hidden rounded-full border-4 border-background bg-muted text-3xl font-bold shadow-lg">
+          <div className="flex h-28 w-28 shrink-0 items-center justify-center overflow-hidden rounded-full border-4 border-background bg-muted text-3xl font-bold shadow-lg">
             {profileImage ? (
               <img
                 src={profileImage}
@@ -44,7 +51,7 @@ export default function ProfileHeader({ user, onEdit }: ProfileHeaderProps) {
             )}
           </div>
 
-          {/* User Details */}
+          {/* User Information */}
 
           <div className="space-y-2 text-center sm:text-left">
             <div className="flex flex-wrap items-center justify-center gap-3 sm:justify-start">
@@ -60,7 +67,8 @@ export default function ProfileHeader({ user, onEdit }: ProfileHeaderProps) {
             <p className="text-muted-foreground">{user.email}</p>
 
             <p className="max-w-xl text-sm text-muted-foreground">
-              Manage your equipment, rental requests and provider account.
+              Manage your equipment, rental requests, and provider account from
+              one place.
             </p>
           </div>
         </div>
@@ -68,8 +76,9 @@ export default function ProfileHeader({ user, onEdit }: ProfileHeaderProps) {
         {/* Edit Button */}
 
         <button
+          type="button"
           onClick={onEdit}
-          className="rounded-lg bg-primary px-5 py-2 text-sm font-medium text-primary-foreground transition hover:opacity-90"
+          className="rounded-lg bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition hover:opacity-90"
         >
           Edit Profile
         </button>
@@ -77,10 +86,12 @@ export default function ProfileHeader({ user, onEdit }: ProfileHeaderProps) {
 
       <Separator className="my-8" />
 
-      {/* Stats */}
+      {/* Profile Stats */}
 
       <div className="grid gap-4 sm:grid-cols-3">
-        <div className="rounded-xl border bg-muted/30 p-5">
+        {/* Equipment */}
+
+        <div className="rounded-xl border bg-muted/30 p-5 transition hover:shadow-sm">
           <div className="mb-3 flex items-center gap-2 text-muted-foreground">
             <Package className="h-4 w-4" />
 
@@ -89,10 +100,12 @@ export default function ProfileHeader({ user, onEdit }: ProfileHeaderProps) {
 
           <h3 className="text-3xl font-bold">--</h3>
 
-          <p className="text-xs text-muted-foreground">Total equipment</p>
+          <p className="mt-1 text-xs text-muted-foreground">Total equipment</p>
         </div>
 
-        <div className="rounded-xl border bg-muted/30 p-5">
+        {/* Rentals */}
+
+        <div className="rounded-xl border bg-muted/30 p-5 transition hover:shadow-sm">
           <div className="mb-3 flex items-center gap-2 text-muted-foreground">
             <ShoppingCart className="h-4 w-4" />
 
@@ -101,21 +114,21 @@ export default function ProfileHeader({ user, onEdit }: ProfileHeaderProps) {
 
           <h3 className="text-3xl font-bold">--</h3>
 
-          <p className="text-xs text-muted-foreground">Rental requests</p>
+          <p className="mt-1 text-xs text-muted-foreground">Rental requests</p>
         </div>
 
-        <div className="rounded-xl border bg-muted/30 p-5">
+        {/* Member Since */}
+
+        <div className="rounded-xl border bg-muted/30 p-5 transition hover:shadow-sm">
           <div className="mb-3 flex items-center gap-2 text-muted-foreground">
             <CalendarDays className="h-4 w-4" />
 
             <span className="text-sm">Member</span>
           </div>
 
-          <h3 className="text-3xl font-bold">
-            {user.createdAt ? new Date(user.createdAt).getFullYear() : "--"}
-          </h3>
+          <h3 className="text-3xl font-bold">{memberSince}</h3>
 
-          <p className="text-xs text-muted-foreground">Joined GearUp</p>
+          <p className="mt-1 text-xs text-muted-foreground">Joined GearUp</p>
         </div>
       </div>
     </div>
