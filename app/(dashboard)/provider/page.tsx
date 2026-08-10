@@ -114,10 +114,6 @@ export default function ProviderPage() {
 
       <QuickActions />
 
-<RecentRentalRequests
-  orders={orders}
-/>
-
       {/* Recent Requests */}
       <RecentRentalRequests orders={orders} />
     </div>

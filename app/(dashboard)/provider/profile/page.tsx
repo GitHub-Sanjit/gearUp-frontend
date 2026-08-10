@@ -6,6 +6,7 @@ import ProfileHeader from "@/components/provider/profile/ProfileHeader";
 import ProfileInformation from "@/components/provider/profile/ProfileInformation";
 import ProfileForm from "@/components/provider/profile/ProfileForm";
 import ProfileSkeleton from "@/components/provider/profile/ProfileSkeleton";
+import AccountInformation from "@/components/provider/profile/AccountInformation";
 
 import { useAuth } from "@/hooks/useAuth";
 
@@ -38,7 +39,7 @@ export default function ProviderProfilePage() {
 
   return (
     <div className="space-y-8">
-      {/* Page Title */}
+      {/* Page Header */}
 
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Profile Settings</h1>
@@ -65,16 +66,23 @@ export default function ProviderProfilePage() {
               type="button"
               variant="outline"
               onClick={() => setIsEditing(false)}
-              disabled={false}
             >
               Cancel Editing
             </Button>
           </div>
         </div>
       ) : (
-        <div className="rounded-xl border bg-background shadow-sm">
-          <ProfileInformation user={user} />
-        </div>
+        <>
+          {/* Profile Information */}
+
+          <div className="rounded-xl border bg-background shadow-sm">
+            <ProfileInformation user={user} />
+          </div>
+
+          {/* Account Information */}
+
+          <AccountInformation user={user} />
+        </>
       )}
     </div>
   );

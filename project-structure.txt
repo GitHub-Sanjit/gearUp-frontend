@@ -72,6 +72,8 @@
 │   │   ├── HowItWorks.tsx
 │   │   ├── Testimonials.tsx
 │   │   └── WhyChooseUs.tsx
+│   ├── payment
+│   │   └── PayNowButton.tsx
 │   ├── provider
 │   │   ├── dashboard
 │   │   │   ├── DashboardSkeleton.tsx
@@ -98,6 +100,7 @@
 │   │   │   ├── ProviderStatusBadge.tsx
 │   │   │   └── UpdateRentalStatusDialog.tsx
 │   │   └── profile
+│   │       ├── AccountInformation.tsx
 │   │       ├── ProfileForm.tsx
 │   │       ├── ProfileHeader.tsx
 │   │       ├── ProfileInformation.tsx
@@ -149,6 +152,7 @@
 │   ├── useFeaturedGears.ts
 │   ├── useGear.ts
 │   ├── useGears.ts
+│   ├── usePayments.ts
 │   ├── useProviderEquipment.ts
 │   ├── useRentals.ts
 │   └── useUpdateEquipment.ts
@@ -198,6 +202,7 @@
 │   ├── booking.ts
 │   ├── category.ts
 │   ├── gear.ts
+│   ├── payment.ts
 │   ├── rental.ts
 │   └── user.ts
 └── utils

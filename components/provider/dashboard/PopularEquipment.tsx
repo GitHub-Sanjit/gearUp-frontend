@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { Trophy } from "lucide-react";
 
 import type { RentalOrder } from "@/types/rental";
