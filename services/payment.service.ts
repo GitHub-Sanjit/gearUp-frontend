@@ -11,7 +11,7 @@ import type {
  * Create a Stripe Checkout Session
  *
  * Backend:
- * POST /payments/create-checkout-session
+ * POST /payments/checkout
  *
  * Body:
  * {
@@ -22,7 +22,7 @@ export const createCheckoutSession = async (
   payload: CreateCheckoutSessionPayload,
 ) => {
   const { data } = await axiosInstance.post<CreateCheckoutSessionResponse>(
-    "/payments/create-checkout-session",
+    "/payments/checkout",
     payload,
   );
 
