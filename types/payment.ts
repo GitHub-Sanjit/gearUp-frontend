@@ -105,6 +105,52 @@ export interface AllPaymentsMeta {
   totalPage: number;
 }
 
+export interface AdminPayment {
+  id: string;
+  amount: number;
+  provider: PaymentProvider;
+  status: PaymentStatus;
+
+  stripeCustomerId?: string | null;
+  stripeSessionId?: string | null;
+  transactionId?: string | null;
+
+  paidAt: string | null;
+  createdAt: string;
+  updatedAt: string;
+
+  rentalOrder: {
+    id: string;
+    startDate: string;
+    endDate: string;
+    totalAmount: number;
+
+    customer: {
+      id: string;
+      name: string;
+      email: string;
+    };
+
+    gear: {
+      id: string;
+      name: string;
+      brand: string | null;
+      image: string | null;
+
+      category: {
+        id: string;
+        name: string;
+      };
+
+      provider: {
+        id: string;
+        name: string;
+        email: string;
+      };
+    };
+  };
+}
+
 export interface AllPaymentsResponse {
   success: boolean;
   statusCode?: number;
@@ -112,47 +158,5 @@ export interface AllPaymentsResponse {
 
   meta: AllPaymentsMeta;
 
-  data: Array<{
-    id: string;
-    amount: number;
-    provider: PaymentProvider;
-    status: PaymentStatus;
-    stripeCustomerId?: string | null;
-    stripeSessionId?: string | null;
-    transactionId?: string | null;
-    paidAt: string | null;
-    createdAt: string;
-    updatedAt: string;
-
-    rentalOrder: {
-      id: string;
-      startDate: string;
-      endDate: string;
-      totalAmount: number;
-
-      customer: {
-        id: string;
-        name: string;
-        email: string;
-      };
-
-      gear: {
-        id: string;
-        name: string;
-        brand: string | null;
-        image: string | null;
-
-        category: {
-          id: string;
-          name: string;
-        };
-
-        provider: {
-          id: string;
-          name: string;
-          email: string;
-        };
-      };
-    };
-  }>;
+  data: AdminPayment[];
 }

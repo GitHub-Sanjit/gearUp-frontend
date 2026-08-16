@@ -1,6 +1,7 @@
 import { axiosInstance } from "@/lib/axios";
 
 import type {
+  AllPaymentsResponse,
   CreateCheckoutSessionPayload,
   CreateCheckoutSessionResponse,
   MyPaymentsResponse,
@@ -52,6 +53,38 @@ export const getMyPayments = async () => {
 export const getProviderPayments = async () => {
   const { data } = await axiosInstance.get<ProviderPaymentsResponse>(
     "/payments/provider-payments",
+  );
+
+  return data;
+};
+
+/**
+ * Get all payments
+ *
+ * Backend:
+ * GET /payments/admin/payments
+ *
+ * Supported query parameters:
+ * - status
+ * - provider
+ * - page
+ * - limit
+ * - sortBy
+ * - sortOrder
+ */
+export const getAllPayments = async (params?: {
+  status?: string;
+  provider?: string;
+  page?: number;
+  limit?: number;
+  sortBy?: string;
+  sortOrder?: "asc" | "desc";
+}) => {
+  const { data } = await axiosInstance.get<AllPaymentsResponse>(
+    "/payments/admin/payments",
+    {
+      params,
+    },
   );
 
   return data;

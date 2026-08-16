@@ -4,6 +4,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 
 import {
   createCheckoutSession,
+  getAllPayments,
   getMyPayments,
   getProviderPayments,
 } from "@/services/payment.service";
@@ -48,5 +49,34 @@ export const useProviderPayments = () => {
   return useQuery({
     queryKey: ["provider-payments"],
     queryFn: getProviderPayments,
+  });
+};
+
+// =====================================
+// ADMIN
+// =====================================
+
+/**
+ * Get all payments
+ *
+ * Supports:
+ * - status
+ * - provider
+ * - page
+ * - limit
+ * - sortBy
+ * - sortOrder
+ */
+export const useAllPayments = (params?: {
+  status?: string;
+  provider?: string;
+  page?: number;
+  limit?: number;
+  sortBy?: string;
+  sortOrder?: "asc" | "desc";
+}) => {
+  return useQuery({
+    queryKey: ["all-payments", params],
+    queryFn: () => getAllPayments(params),
   });
 };
