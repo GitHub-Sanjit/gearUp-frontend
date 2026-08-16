@@ -10,6 +10,7 @@ import {
   CalendarCheck,
   Settings,
   User,
+  CreditCard,
 } from "lucide-react";
 
 type Role = "ADMIN" | "PROVIDER" | "CUSTOMER";
@@ -78,13 +79,18 @@ const sidebarItems = {
     },
     {
       title: "Browse Equipment",
-      href: "/dashboard/equipment",
+      href: "/gears",
       icon: Package,
     },
     {
-      title: "My Bookings",
-      href: "/dashboard/bookings",
+      title: "My Rentals",
+      href: "/dashboard/rentals",
       icon: CalendarCheck,
+    },
+    {
+      title: "Payments",
+      href: "/dashboard/payments",
+      icon: CreditCard,
     },
     {
       title: "Profile",
@@ -100,14 +106,17 @@ export default function DashboardSidebar({ role }: DashboardSidebarProps) {
   const items = sidebarItems[role];
 
   return (
-    <aside className="w-64 border-r min-h-screen p-5">
-      <h2 className="text-xl font-bold mb-8">GearUp</h2>
+    <aside className="w-64 min-h-screen border-r p-5">
+      <h2 className="mb-8 text-xl font-bold">GearUp</h2>
 
       <nav className="space-y-2">
         {items.map((item) => {
           const Icon = item.icon;
 
-          const active = pathname === item.href;
+          const active =
+            pathname === item.href ||
+            (item.href !== "/dashboard" &&
+              pathname.startsWith(`${item.href}/`));
 
           return (
             <Link
