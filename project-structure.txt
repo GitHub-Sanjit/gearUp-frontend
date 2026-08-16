@@ -22,6 +22,10 @@
 │   │   ├── dashboard
 │   │   │   ├── layout.tsx
 │   │   │   ├── page.tsx
+│   │   │   ├── payments
+│   │   │   │   └── page.tsx
+│   │   │   ├── profile
+│   │   │   │   └── page.tsx
 │   │   │   └── rentals
 │   │   │       └── page.tsx
 │   │   ├── layout.tsx
@@ -41,7 +45,12 @@
 │   │   │   │   └── page.tsx
 │   │   │   └── page.tsx
 │   │   ├── layout.tsx
-│   │   └── page.tsx
+│   │   ├── page.tsx
+│   │   └── payment
+│   │       ├── cancel
+│   │       │   └── page.tsx
+│   │       └── success
+│   │           └── page.tsx
 │   ├── favicon.ico
 │   ├── globals.css
 │   ├── layout.tsx
